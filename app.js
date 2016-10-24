@@ -2,22 +2,21 @@ $('#show').click(function(){
 	$.ajax('http://192.168.1.21:3000/places')
 	.done(ajaxDone)
 	.fail(ajaxFail)
-	.always(ajaxAlways);
+	.always(ajaxAlways)
 
 	function ajaxDone(response) {
-	    var listplaces = response["places"];
-	    console.log(listplaces);
-	    //Affichage des places sur la page web -> marche
-	    for (var i = 0; i < listplaces.length; i++) {
-	      	$('ul').append('<li>' + listplaces[i]["nom"] + '</li>');
-	    }
-		
-		//Affichage du mot de passe sur le body -> ne marche pas
-		if(listplaces === listplaces["IoT Valley"]){
-         	var motDePasse = listplaces["IOT Valley"]["password"];
-         	$('body').text("mot de passe:" + motDePasse);
-      	}      
-   	}
+		var listplaces = response["places"];
+		console.log(listplaces);
+
+		for (var i = 0; i < listplaces.length; i++) {
+			$('#list').append('<li>' + listplaces[i]["nom"] + '</li>');
+
+			if(listplaces[i].nom === "IoT Valley") {
+				var motDePasse = listplaces[i].password;
+				$("#password").html("Le mot de passe est :" + motDePasse);
+			}
+		}
+	}
 
 	function ajaxFail(response) {
 		console.log("Fail");
